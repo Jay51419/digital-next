@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import vCard from 'vcf';
 import {
   FaQrcode,
   FaShareAlt,
@@ -96,31 +95,55 @@ export default function FloatingButtons() {
   };
 
   const handleAddContact = () => {
-    // Create vCard data
-    const contact = new vCard();
+    const contact = {
+      name: "Bipen Tiwari",
+      phone: "+919320012999",
+      mobile: "+919320012999",
+      email: "enquiry@a3b.in",
+      address: "A 504, Universal Business Park, Chandivali Farm Road, Off Saki Vihar Road, Andheri (East), Mumbai – 400072.",
+      organization: "A3B",
+      title: "Founder and Director",
+      website: "https://www.a3b.in",
+      mapsUrl: "https://maps.app.goo.gl/XCMgSDafcvEEJ56Z9",
+      notes: "Find us on Google Maps for easy navigation."
+    };
 
-  // Add contact details
-  contact.add('fn', 'Bipen Tiwari');
-  contact.add('title', 'Founder and Director');
-  contact.add('org', 'A3B');
-  contact.add('tel', '+919320012999', { type: ['cell'] });
-  contact.add('email', 'enquiry@a3b.in');
-  contact.add('adr', ';;A 504, Universal Business Park, Chandivali Farm Road, Off Saki Vihar Road, Andheri (East), Mumbai – 400072.');
+    const vcard = `BEGIN:VCARD
+VERSION:3.0
+N:${contact.name};;;
+FN:${contact.name}
+TEL;CELL:${contact.phone}
+EMAIL;HOME:${contact.email}
+ADR;HOME:;;${contact.address}
+ORG;WORK:${contact.organization}
+TITLE:${contact.title}
+URL:${contact.website}
+NOTE:Google Maps - ${contact.mapsUrl}
+END:VCARD`;
 
-  // Convert to vCard string
-  const vCardData = contact.toString();
-    
+    const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+    const file = new File([blob], `${contact.name}.vcf`, { type: "text/vcard" });
 
-    // Create blob and download
-    const blob = new Blob([vCardData], { type: "text/vcard" });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "contact.vcf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+    if (navigator.share) {
+      navigator.share({
+        title: 'New Contact',
+        text: `Save ${contact.name}'s contact`,
+        files: [file],
+      }).then(() => {
+        console.log('Contact shared successfully');
+      }).catch((error) => {
+        console.error('Error sharing contact:', error);
+      });
+    } else {
+      alert('Sharing not supported on this device. Downloading contact file instead.');
+      
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${contact.name}.vcf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   const saveToGallery = async () => {
