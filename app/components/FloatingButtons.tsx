@@ -97,14 +97,15 @@ export default function FloatingButtons() {
   const handleAddContact = () => {
     // Create vCard data
     const vCard = `BEGIN:VCARD
-                    VERSION:3.0
-                    FN:Bipen Tiwari
-                    TITLE:Founder and Director
-                    ORG:A3B
-                    TEL:+919320012999
-                    EMAIL:enquiry@a3b.in
-                    ADR:;;A 504, Universal Business Park, Chandivali Farm Road, Off Saki Vihar Road, Andheri (East), Mumbai – 400072.
-                    END:VCARD`;
+    VERSION:3.0
+    FN:Bipen Tiwari
+    TITLE:Founder and Director
+    ORG:A3B
+    TEL;TYPE=cell:+919320012999
+    EMAIL:enquiry@a3b.in
+    ADR;TYPE=work:;;A 504, Universal Business Park, Chandivali Farm Road, Off Saki Vihar Road, Andheri (East), Mumbai – 400072.
+    END:VCARD`;
+    
 
     // Create blob and download
     const blob = new Blob([vCard], { type: "text/vcard" });
@@ -169,8 +170,7 @@ export default function FloatingButtons() {
         onClick={handleAddContact}
         className="fixed bottom-4 right-4 z-50 bg-[#2e3192] text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-opacity-90 transition-colors"
       >
-        <FaUserPlus className="text-xl" />
-        <span>Add to Contact</span>
+        <FaUserPlus className="text-2xl" />
       </button>
 
       {/* QR Code Modal */}

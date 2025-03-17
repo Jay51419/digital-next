@@ -15,10 +15,10 @@ export default function Profile() {
           />
         </div>
         <div className="flex flex-col justify-center px-6 text-white">
-          <h2 className="text-2xl font-medium mb-1 drop-shadow-md">
+          <h2 className="text-lg md:text-2xl font-medium mb-1 drop-shadow-md">
             Bipen Tiwari
           </h2>
-          <p className="text-lg mb-1">Founder and Director</p>
+          <p className="mb-1">Founder and Director</p>
           <p className="text-sm opacity-90">A3B Design Studio</p>
         </div>
       </div>
