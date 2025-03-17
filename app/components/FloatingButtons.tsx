@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import vCard from 'vcf';
 import {
   FaQrcode,
   FaShareAlt,
@@ -96,19 +97,22 @@ export default function FloatingButtons() {
 
   const handleAddContact = () => {
     // Create vCard data
-    const vCard = `BEGIN:VCARD
-    VERSION:3.0
-    FN:Bipen Tiwari
-    TITLE:Founder and Director
-    ORG:A3B
-    TEL;TYPE=cell:+919320012999
-    EMAIL:enquiry@a3b.in
-    ADR;TYPE=work:;;A 504, Universal Business Park, Chandivali Farm Road, Off Saki Vihar Road, Andheri (East), Mumbai – 400072.
-    END:VCARD`;
+    const contact = new vCard();
+
+  // Add contact details
+  contact.add('fn', 'Bipen Tiwari');
+  contact.add('title', 'Founder and Director');
+  contact.add('org', 'A3B');
+  contact.add('tel', '+919320012999', { type: ['cell'] });
+  contact.add('email', 'enquiry@a3b.in');
+  contact.add('adr', ';;A 504, Universal Business Park, Chandivali Farm Road, Off Saki Vihar Road, Andheri (East), Mumbai – 400072.');
+
+  // Convert to vCard string
+  const vCardData = contact.toString();
     
 
     // Create blob and download
-    const blob = new Blob([vCard], { type: "text/vcard" });
+    const blob = new Blob([vCardData], { type: "text/vcard" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
