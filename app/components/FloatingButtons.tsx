@@ -76,7 +76,8 @@ export default function FloatingButtons() {
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        await navigator.share({
+        await navigator.share(
+          {
           title: "Digital Business Card",
           text: "Check out my digital business card",
           url: window.location.href,
@@ -95,55 +96,12 @@ export default function FloatingButtons() {
   };
 
   const handleAddContact = () => {
-    const contact = {
-      name: "Bipen Tiwari",
-      phone: "+919320012999",
-      mobile: "+919320012999",
-      email: "enquiry@a3b.in",
-      address: "A 504, Universal Business Park, Chandivali Farm Road, Off Saki Vihar Road, Andheri (East), Mumbai – 400072.",
-      organization: "A3B",
-      title: "Founder and Director",
-      website: "https://www.a3b.in",
-      mapsUrl: "https://maps.app.goo.gl/XCMgSDafcvEEJ56Z9",
-      notes: "Find us on Google Maps for easy navigation."
-    };
-
-    const vcard = `BEGIN:VCARD
-VERSION:3.0
-N:${contact.name};;;
-FN:${contact.name}
-TEL;CELL:${contact.phone}
-EMAIL;HOME:${contact.email}
-ADR;HOME:;;${contact.address}
-ORG;WORK:${contact.organization}
-TITLE:${contact.title}
-URL:${contact.website}
-NOTE:Google Maps - ${contact.mapsUrl}
-END:VCARD`;
-
-    const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
-    const file = new File([blob], `${contact.name}.vcf`, { type: "text/vcard" });
-
-    if (navigator.share) {
-      navigator.share({
-        title: 'New Contact',
-        text: `Save ${contact.name}'s contact`,
-        files: [file],
-      }).then(() => {
-        console.log('Contact shared successfully');
-      }).catch((error) => {
-        console.error('Error sharing contact:', error);
-      });
-    } else {
-      alert('Sharing not supported on this device. Downloading contact file instead.');
-      
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `${contact.name}.vcf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    const link = document.createElement('a');
+    link.href = '/Bipen-Tiwari.vcf';  // Path to your .vcf file in /public
+    link.download = 'Bipen-Tiwari.vcf';  // Suggested file name
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const saveToGallery = async () => {
