@@ -19,7 +19,21 @@ import { QRCodeSVG } from "qrcode.react";
 import Logo from "./Logo";
 import html2canvas from "html2canvas-pro";
 
-export default function FloatingButtons() {
+export default function FloatingButtons({
+  logoUrl,
+  name,
+  title,
+  company,
+  primaryColor,
+  vcfUrl,
+}: {
+  logoUrl: string;
+  name: string;
+  title: string;
+  company: string;
+  primaryColor: string;
+  vcfUrl: string;
+}) {
   const [showQR, setShowQR] = useState(false);
   const [showShare, setShowShare] = useState(false);
 
@@ -76,8 +90,7 @@ export default function FloatingButtons() {
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        await navigator.share(
-          {
+        await navigator.share({
           title: "Digital Business Card",
           text: "Check out my digital business card",
           url: window.location.href,
@@ -96,9 +109,9 @@ export default function FloatingButtons() {
   };
 
   const handleAddContact = () => {
-    const link = document.createElement('a');
-    link.href = '/Bipen-Tiwari.vcf';  // Path to your .vcf file in /public
-    link.download = 'Bipen-Tiwari.vcf';  // Suggested file name
+    const link = document.createElement("a");
+    link.href = vcfUrl; // Path to your .vcf file in /public
+    link.download = "Bipen-Tiwari.vcf"; // Suggested file name
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -121,7 +134,7 @@ export default function FloatingButtons() {
     // Capture the content
     const canvas = await html2canvas(contentElement);
     // Restore visibility after capture
-    hiddenElements.forEach((el) => (el as HTMLElement).style.display = "");
+    hiddenElements.forEach((el) => ((el as HTMLElement).style.display = ""));
 
     // Download Image
     const image = canvas.toDataURL("image/png");
@@ -138,14 +151,16 @@ export default function FloatingButtons() {
       <div className="fixed bottom-4 left-4 flex gap-4 z-50">
         <button
           onClick={() => setShowQR(true)}
-          className="w-14 h-14 bg-[#2e3192] text-white rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition-colors border border-white/20"
+          style={{ backgroundColor: primaryColor }}
+          className="w-14 h-14  text-white rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition-colors border border-white/20"
         >
           <FaQrcode className="text-2xl" />
         </button>
 
         <button
           onClick={handleShare}
-          className="w-14 h-14 bg-[#2e3192] text-white rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition-colors border border-white/20"
+          style={{ backgroundColor: primaryColor }}
+          className="w-14 h-14  text-white rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-90 transition-colors border border-white/20"
         >
           <FaShareAlt className="text-2xl" />
         </button>
@@ -153,7 +168,8 @@ export default function FloatingButtons() {
 
       <button
         onClick={handleAddContact}
-        className="fixed bottom-4 right-4 z-50 bg-[#2e3192] text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-opacity-90 transition-colors"
+        style={{ backgroundColor: primaryColor }}
+        className="fixed bottom-4 right-4 z-50  text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg hover:bg-opacity-90 transition-colors"
       >
         <FaUserPlus className="text-2xl" />
       </button>
@@ -176,25 +192,32 @@ export default function FloatingButtons() {
             <div className="py-10">
               {/* Profile Section */}
               <div className="text-center mb-6">
-                <Logo />
-                <h2 className="text-xl mt-4 font-medium mb-1">Bipen Tiwari</h2>
-                <p className="text-gray-600 mb-1">Founder and Director</p>
-                <p className="text-gray-500">A3B</p>
+                <Logo url={logoUrl} />
+                <h2 className="text-xl mt-4 font-medium mb-1">{name}</h2>
+                <p className="text-gray-600 mb-1">{title}</p>
+                <p className="text-gray-500">{company}</p>
               </div>
 
               {/* QR Code */}
               <div className="flex justify-center mb-6">
-                <QRCodeSVG value={window.location.href} size={200} level="H" />
+                <QRCodeSVG
+                  fgColor={primaryColor}
+                  color={primaryColor}
+                  value={window.location.href}
+                  size={200}
+                  level="H"
+                />
               </div>
 
               {/* Action Buttons */}
               <div className="exclude-from-screenshot flex flex-col gap-3 px-4">
                 <button
                   onClick={saveToGallery}
-                  className="flex justify-center items-center gap-3 p-3 border border-[#2e3192] bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  style={{ borderColor: primaryColor }}
+                  className="flex justify-center items-center gap-3 p-3 border bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                 >
                   <div className="">
-                    <IoMdPhotos className="text-2xl text-[#2e3192]" />
+                    <IoMdPhotos style={{color:primaryColor}} className="text-2xl" />
                   </div>
                   <span className="text-gray-700">Add to Gallery</span>
                 </button>
@@ -236,7 +259,8 @@ export default function FloatingButtons() {
             </div>
             <button
               onClick={() => setShowShare(false)}
-              className="w-full py-2 bg-[#2e3192] text-white rounded-lg"
+              style={{ backgroundColor: primaryColor }}
+              className="w-full py-2 text-white rounded-lg"
             >
               Close
             </button>

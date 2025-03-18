@@ -1,7 +1,7 @@
-export default function Logo() {
+export default function Logo({ url }: { url: string }) {
   return (
     <div className="flex w-full justify-center items-center gap-2">
-      <img className="w-36" src="/A3B-new-logo.png" alt="Logo" />
+      <img className="w-36" src={url} alt="Logo" />
     </div>
   );
 }
